@@ -1,0 +1,50 @@
+html{scroll-behavior:smooth}body{margin:0;background:#030d15;color:#fff}#hero{position:relative;background:#030d15;padding-bottom:72px}#scene{position:relative;width:100%;aspect-ratio:16/9;background:url('/assets/reference.png') center/100% 100% no-repeat;overflow:hidden}#scene canvas{width:100%;height:100%;display:block;touch-action:pan-y}#load-status{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font:12px system-ui;background:#06131cdd;padding:8px 16px;border-radius:20px;white-space:nowrap}.hero-copy{text-align:center;margin:-12px auto 0;position:relative;max-width:850px;padding:0 24px}.hero-copy h1{font-size:clamp(25px,3vw,46px);line-height:1.18;font-weight:500;letter-spacing:-.025em;margin:20px 0 32px}.actions{display:flex;gap:16px;justify-content:center}.actions a{padding:14px 24px;border-radius:9px;background:#a9d5ff;color:#07131d;text-decoration:none}.actions a+ a{background:#202527;color:white}.hero-copy p{font-size:13px;margin-top:20px}.hero-copy p a{color:#ccc;text-decoration:underline}#preview-tools{position:fixed;z-index:9999;bottom:14px;right:14px;max-width:330px;padding:10px 14px;border:1px solid #ffffff30;border-radius:10px;background:#08141fef;font:12px/1.5 system-ui;box-shadow:0 8px 40px #0005}#preview-tools summary{cursor:pointer}#preview-tools label{display:block;margin:12px 0}#preview-tools select,#preview-tools button{background:#24323e;color:#fff;border:1px solid #637384;border-radius:5px;padding:6px;margin:3px}#preview-tools p{color:#aebdca;font-size:11px}#preview-tools output{display:block;color:#aebdca}[class*="TopStickyElement"],[class*="BottomSticky"]{display:none!important}[class*="Sequence"]{display:none} @media(max-width:600px){#scene{width:150%;margin-left:-25%;margin-top:48px}.hero-copy h1{font-size:25px}#hero{padding-bottom:54px}#preview-tools{max-width:260px;font-size:11px}.hero-copy{margin-top:10px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* Viewport-wide optical falloff: center stays sharp; interaction passes through. */
+body::after{
+ content:"";
+ position:fixed;
+ inset:0;
+ z-index:9998;
+ pointer-events:none;
+ backdrop-filter:blur(2.5px);
+ -webkit-backdrop-filter:blur(2.5px);
+ mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.55) 9%,transparent 28%,transparent 72%,rgba(0,0,0,.55) 91%,#000 100%);
+ -webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.55) 9%,transparent 28%,transparent 72%,rgba(0,0,0,.55) 91%,#000 100%);
+}
+@media(max-width:600px){body::after{backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px)}}
+@media print{body::after{display:none}}
+.hero-copy h1{color:#fff}
+.sequence-motion{position:absolute;bottom:16px;right:16px;z-index:2;border:1px solid #ffffff40;border-radius:20px;padding:7px 12px;background:#06131cbb;color:#dbe7ef;font:11px system-ui;cursor:pointer;opacity:.6;transition:opacity .2s}.sequence-motion:hover,.sequence-motion:focus-visible{opacity:1}
+@media(max-width:600px){.sequence-motion{right:calc(16.6667% + 16px)}}
+/* Match the sampled render color and dissolve its bottom edge into the page. */
+:root{--hero-blue:#041b27}
+body,#hero{background-color:var(--hero-blue)}
+#scene{background:var(--hero-blue)}
+#scene-canvas{mask-image:linear-gradient(to bottom,#000 0%,#000 78%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 78%,transparent 100%)}
+#hero{display:flow-root;margin-top:max(clamp(-236px,-9.25vw,-64px),calc(76px - 14.1vw))}
+.hero-copy{margin-top:clamp(-220px,-15vw,-160px);z-index:3}
+.hero-copy h1{position:relative;top:-80px;opacity:0;text-shadow:0 2px 18px rgba(2,12,20,.75)}
+#hero.hero-ready .hero-copy h1{animation:hero-heading-in 2s ease-out both}
+@keyframes hero-heading-in{from{opacity:0}to{opacity:1}}
+@media(max-width:600px){#hero{margin-top:-64px}.hero-copy{margin-top:-148px}.hero-copy h1{top:0}.sequence-motion{bottom:90px}}
+html,body,[class*="CardPageFull__MainContainer"],[class*="CardPageFull__StackContainer"],[class*="CardPageFull__HeroPlusThreeCardContainer"],[class*="CardPageFull__ModulesContainer"]{background:var(--hero-blue)!important}
+.sequence-motion{top:76px;bottom:auto}
+@media(max-width:600px){.sequence-motion{top:22px;bottom:auto}}
+.hero-copy .sequence-motion{position:relative;top:auto;right:auto;bottom:auto;display:block;margin:20px auto 0}
+.card-hit-target{position:absolute;z-index:4;display:block;padding:0;border:0;border-radius:7px;background:transparent;cursor:zoom-in}
+.card-hit-target:focus{outline:none}
+.keyboard-navigation .card-hit-target:focus-visible{outline:2px solid #c5e3ff;outline-offset:5px}
+.card-hit-target[hidden],.card-focus-close[hidden]{display:none!important}
+.card-focus-close{position:absolute;z-index:5;left:50%;top:30%;transform:translateX(-50%);border:1px solid #ffffff50;border-radius:24px;padding:9px 17px;color:#fff;background:#071722dd;font:13px system-ui;cursor:pointer}
+.card-focus-announcement{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.card-focus-video{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:1;pointer-events:none;mask-image:linear-gradient(to bottom,#000 0%,#000 78%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 78%,transparent 100%)}
+.card-focus-video[hidden]{display:none!important}
+/* Fade the focused camera into the page without exposing the overview beneath it. */
+#scene.card-is-focused #scene-canvas{visibility:hidden}
+.native-arrival-video{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:1;pointer-events:none;mask-image:linear-gradient(to bottom,#000 0%,#000 78%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 78%,transparent 100%)}
+.native-arrival-video[hidden]{display:none!important}
+#scene.arrival-is-playing #scene-canvas{visibility:hidden}
+.string-light-glow{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen}
+#scene.card-is-focused .string-light-glow{visibility:hidden}
+/* Backdrop blur forces video through an expensive extra compositing pass. */
+body:has(.card-is-focused)::after{backdrop-filter:none;-webkit-backdrop-filter:none}
