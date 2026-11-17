@@ -2,6 +2,8 @@
 
 A website prototype combining Blender-rendered neighborhood imagery with interactive camera movement and card focus views.
 
+**[View the live website](https://keithgmcleod.github.io/bilt-rewards-interactive-demo/)**
+
 ![Card zoom preview](docs/preview.jpg)
 
 ## Run locally
@@ -20,7 +22,7 @@ npm run build
 npm run preview
 ```
 
-The production website is generated in `dist/` and can be served from the root of a static website host.
+The production website is generated in `dist/` with the GitHub Pages repository prefix. Changes pushed to `main` are built and published automatically by the Pages workflow.
 
 ## Interactions
 

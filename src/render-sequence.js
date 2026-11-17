@@ -2,6 +2,7 @@ import {createCardFocus} from './card-focus.js';
 import {createNativeArrival} from './native-arrival.js';
 import {createNeonLayer,createNeonFlicker,drawNeon} from './neon.js';
 import {createStringLightLayers,createStringLightGlow,drawStringLights} from './string-lights.js';
+import {assetUrl} from './asset-url.js';
 export async function createRenderSequence(){
  const host=document.querySelector('#scene'),canvas=document.querySelector('#scene-canvas'),status=document.querySelector('#load-status');
  const ctx=canvas.getContext('2d',{alpha:false});
@@ -9,7 +10,7 @@ export async function createRenderSequence(){
  const bloom=bloomCanvas.getContext('2d'),stringLayers=new Map(),stringGlow=createStringLightGlow();
  const controls=document.querySelector('#preview-tools');if(controls)controls.remove();
  host.setAttribute('aria-label','Blender-rendered neighborhood with mouse-responsive camera pan');
- const response=await fetch('/assets/scene02-pan/manifest.json',{cache:'no-store'});
+ const response=await fetch(assetUrl('scene02-pan/manifest.json'),{cache:'no-store'});
  if(!response.ok)throw Error('Render sequence is not available yet');
  let manifest=await response.json();
  const images=new Map(),pending=new Map();let target=manifest.center,current=manifest.center,active=true,last=performance.now(),visible=true;
@@ -19,7 +20,7 @@ export async function createRenderSequence(){
   if(images.has(index))return images.get(index);
   if(pending.has(index))return pending.get(index);
   if(!manifest.ready.includes(index))return null;
-  const promise=(async()=>{const img=new Image();img.decoding='async';img.src='/assets/scene02-pan/'+manifest.files[index];await img.decode();neonLayers.set(index,createNeonLayer(img));stringLayers.set(index,createStringLightLayers(img));images.set(index,img);return img;})();
+  const promise=(async()=>{const img=new Image();img.decoding='async';img.src=assetUrl('scene02-pan/'+manifest.files[index]);await img.decode();neonLayers.set(index,createNeonLayer(img));stringLayers.set(index,createStringLightLayers(img));images.set(index,img);return img;})();
   pending.set(index,promise);try{return await promise;}finally{pending.delete(index);}
  }
  const resize=()=>{const dpr=Math.min(devicePixelRatio,2);canvas.width=Math.min(manifest.width,Math.round(host.clientWidth*dpr));canvas.height=Math.round(canvas.width*manifest.height/manifest.width);bloomCanvas.width=canvas.width;bloomCanvas.height=canvas.height;};
@@ -27,7 +28,7 @@ export async function createRenderSequence(){
  while(!manifest.ready.includes(manifest.center)){
   status.textContent='Preparing Blender-rendered views…';
   await new Promise(resolve=>setTimeout(resolve,5000));
-  manifest=await fetch('/assets/scene02-pan/manifest.json',{cache:'no-store'}).then(r=>r.json());
+  manifest=await fetch(assetUrl('scene02-pan/manifest.json'),{cache:'no-store'}).then(r=>r.json());
  }
  const centerImage=await load(manifest.center);
  await Promise.all([load(0),load(manifest.count-1)]);
@@ -84,5 +85,5 @@ export async function createRenderSequence(){
  await arrival.readyForPan;
  while(cardFocus.active)await new Promise(resolve=>setTimeout(resolve,250));
  await preload();
- if(manifest.status!=='complete'){const timer=setInterval(async()=>{try{manifest=await fetch('/assets/scene02-pan/manifest.json',{cache:'no-store'}).then(r=>r.json());await preload();if(manifest.status==='complete')clearInterval(timer);}catch(e){console.warn(e);}},10000);}
+ if(manifest.status!=='complete'){const timer=setInterval(async()=>{try{manifest=await fetch(assetUrl('scene02-pan/manifest.json'),{cache:'no-store'}).then(r=>r.json());await preload();if(manifest.status==='complete')clearInterval(timer);}catch(e){console.warn(e);}},10000);}
 }

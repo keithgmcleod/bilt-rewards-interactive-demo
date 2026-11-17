@@ -1,3 +1,4 @@
+import {assetUrl} from './asset-url.js';
 // Dense clips contain 68 original Blender views at 60 fps (1.13 seconds).
 const zoomPlaybackRate=1;
 const cards=[
@@ -23,8 +24,8 @@ export function createCardFocus(host,onSelect){
   if(cache.has(key))return cache.get(key);
   if(loading.has(key))return loading.get(key);
   const task=(async()=>{
-   const clips=await Promise.all(['in','out'].map(direction=>makeVideo('/assets/scene02-zooms/'+card.id+'-'+direction+'.mp4')));
-   const poster=new Image();poster.className='card-focus-video';poster.hidden=true;poster.alt='';poster.src='/assets/scene02-zooms/'+card.id+'-focused.png';await poster.decode();host.append(poster);
+   const clips=await Promise.all(['in','out'].map(direction=>makeVideo(assetUrl('scene02-zooms/'+card.id+'-'+direction+'.mp4'))));
+   const poster=new Image();poster.className='card-focus-video';poster.hidden=true;poster.alt='';poster.src=assetUrl('scene02-zooms/'+card.id+'-focused.png');await poster.decode();host.append(poster);
    const pair={forward:clips[0],reverse:clips[1],poster};cache.set(key,pair);return pair;
   })();
   loading.set(key,task);try{return await task;}finally{loading.delete(key);}

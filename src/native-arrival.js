@@ -1,7 +1,8 @@
+import {assetUrl} from './asset-url.js';
 const quietPeriod=()=>35+Math.random()*35;
 
 export async function createNativeArrival(host){
- const root='/assets/scene02-arrival/';
+ const root=assetUrl('scene02-arrival/');
  const manifest=await fetch(root+'manifest.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Native Blender arrival is unavailable');return r.json();});
  let phase='startup',quiet=0,next=quietPeriod(),current=null;
  let releasePan;
