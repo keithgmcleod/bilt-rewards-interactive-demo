@@ -1,0 +1,18 @@
+{
+  "source": "current open Blender project; actual mesh materials keyed in Blender",
+  "fps": 25,
+  "frames": 46,
+  "variableFrameRate": true,
+  "duration": 5,
+  "width": 2560,
+  "height": 1440,
+  "initialLitFraction": 0.9,
+  "uniqueRenderedFrames": 46,
+  "interpolation": false,
+  "windowOverlays": false,
+  "codec": "vp9",
+  "lossless": true,
+  "geometryRevision": "scene02",
+  "startupFile": "startup-stable-1440-vfr-scene02.webm",
+  "idleFile": "idle-stable-1440-vfr-scene02.webm"
+}
