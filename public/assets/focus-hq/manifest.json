@@ -1,0 +1,185 @@
+{
+  "version": "v2-hq",
+  "status": "complete",
+  "source": "artist-corrected 01_02 source; original shaders and geometry",
+  "zoom": {
+    "width": 2560,
+    "height": 1440,
+    "count": 68,
+    "fps": 60
+  },
+  "focus": {
+    "width": 3840,
+    "height": 2160,
+    "columns": 3,
+    "rows": 3,
+    "center": [
+      1,
+      1
+    ],
+    "cameraTravel": [
+      0.055,
+      0.03
+    ]
+  },
+  "buildingLightFloor": 0.55,
+  "otherCardLightFloor": 0.18,
+  "cards": {
+    "blue": {
+      "forwardFile": "blue-in.mp4",
+      "reverseFile": "blue-out.mp4",
+      "centerFile": "blue-focus-1-1.webp",
+      "focusFiles": [
+        {
+          "x": 0,
+          "y": 0,
+          "file": "blue-focus-0-0.webp"
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "file": "blue-focus-1-0.webp"
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "file": "blue-focus-2-0.webp"
+        },
+        {
+          "x": 0,
+          "y": 1,
+          "file": "blue-focus-0-1.webp"
+        },
+        {
+          "x": 1,
+          "y": 1,
+          "file": "blue-focus-1-1.webp"
+        },
+        {
+          "x": 2,
+          "y": 1,
+          "file": "blue-focus-2-1.webp"
+        },
+        {
+          "x": 0,
+          "y": 2,
+          "file": "blue-focus-0-2.webp"
+        },
+        {
+          "x": 1,
+          "y": 2,
+          "file": "blue-focus-1-2.webp"
+        },
+        {
+          "x": 2,
+          "y": 2,
+          "file": "blue-focus-2-2.webp"
+        }
+      ]
+    },
+    "palladium": {
+      "forwardFile": "palladium-in.mp4",
+      "reverseFile": "palladium-out.mp4",
+      "centerFile": "palladium-focus-1-1.webp",
+      "focusFiles": [
+        {
+          "x": 0,
+          "y": 0,
+          "file": "palladium-focus-0-0.webp"
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "file": "palladium-focus-1-0.webp"
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "file": "palladium-focus-2-0.webp"
+        },
+        {
+          "x": 0,
+          "y": 1,
+          "file": "palladium-focus-0-1.webp"
+        },
+        {
+          "x": 1,
+          "y": 1,
+          "file": "palladium-focus-1-1.webp"
+        },
+        {
+          "x": 2,
+          "y": 1,
+          "file": "palladium-focus-2-1.webp"
+        },
+        {
+          "x": 0,
+          "y": 2,
+          "file": "palladium-focus-0-2.webp"
+        },
+        {
+          "x": 1,
+          "y": 2,
+          "file": "palladium-focus-1-2.webp"
+        },
+        {
+          "x": 2,
+          "y": 2,
+          "file": "palladium-focus-2-2.webp"
+        }
+      ]
+    },
+    "obsidian": {
+      "forwardFile": "obsidian-in.mp4",
+      "reverseFile": "obsidian-out.mp4",
+      "centerFile": "obsidian-focus-1-1.webp",
+      "focusFiles": [
+        {
+          "x": 0,
+          "y": 0,
+          "file": "obsidian-focus-0-0.webp"
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "file": "obsidian-focus-1-0.webp"
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "file": "obsidian-focus-2-0.webp"
+        },
+        {
+          "x": 0,
+          "y": 1,
+          "file": "obsidian-focus-0-1.webp"
+        },
+        {
+          "x": 1,
+          "y": 1,
+          "file": "obsidian-focus-1-1.webp"
+        },
+        {
+          "x": 2,
+          "y": 1,
+          "file": "obsidian-focus-2-1.webp"
+        },
+        {
+          "x": 0,
+          "y": 2,
+          "file": "obsidian-focus-0-2.webp"
+        },
+        {
+          "x": 1,
+          "y": 2,
+          "file": "obsidian-focus-1-2.webp"
+        },
+        {
+          "x": 2,
+          "y": 2,
+          "file": "obsidian-focus-2-2.webp"
+        }
+      ]
+    }
+  }
+}

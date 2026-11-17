@@ -1,8 +1,8 @@
-import {createCardFocus} from './card-focus.js';
+import {assetUrl} from './asset-url.js';
+import {createCardFocus} from './card-focus-hq.js';
 import {createNativeArrival} from './native-arrival.js';
 import {createNeonLayer,createNeonFlicker,drawNeon} from './neon.js';
 import {createStringLightLayers,createStringLightGlow,drawStringLights} from './string-lights.js';
-import {assetUrl} from './asset-url.js';
 export async function createRenderSequence(){
  const host=document.querySelector('#scene'),canvas=document.querySelector('#scene-canvas'),status=document.querySelector('#load-status');
  const ctx=canvas.getContext('2d',{alpha:false});
@@ -20,7 +20,7 @@ export async function createRenderSequence(){
   if(images.has(index))return images.get(index);
   if(pending.has(index))return pending.get(index);
   if(!manifest.ready.includes(index))return null;
-  const promise=(async()=>{const img=new Image();img.decoding='async';img.src=assetUrl('scene02-pan/'+manifest.files[index]);await img.decode();neonLayers.set(index,createNeonLayer(img));stringLayers.set(index,createStringLightLayers(img));images.set(index,img);return img;})();
+  const promise=(async()=>{const img=new Image();img.decoding='async';img.src=assetUrl('scene02-pan/')+manifest.files[index];await img.decode();neonLayers.set(index,createNeonLayer(img));stringLayers.set(index,createStringLightLayers(img));images.set(index,img);return img;})();
   pending.set(index,promise);try{return await promise;}finally{pending.delete(index);}
  }
  const resize=()=>{const dpr=Math.min(devicePixelRatio,2);canvas.width=Math.min(manifest.width,Math.round(host.clientWidth*dpr));canvas.height=Math.round(canvas.width*manifest.height/manifest.width);bloomCanvas.width=canvas.width;bloomCanvas.height=canvas.height;};
@@ -35,7 +35,9 @@ export async function createRenderSequence(){
  const arrival=await createNativeArrival(host);
  // Cache the final native pose for a clean handoff when the startup video ends.
  ctx.drawImage(centerImage,0,0,canvas.width,canvas.height);
- const cardFocus=createCardFocus(host,()=>{target=manifest.center;});
+ const cardFocus=createCardFocus(host,()=>{
+  if(arrival.active)arrival.cancel();target=manifest.center;current=manifest.center;panVelocity=0;
+ });
  // Match the page to the actual rendered blue, rather than an estimated swatch.
  const swatch=document.createElement('canvas');swatch.width=5;swatch.height=1;
  const swatchContext=swatch.getContext('2d',{willReadFrequently:true});
@@ -47,7 +49,7 @@ export async function createRenderSequence(){
  document.querySelector('#hero').classList.add('hero-ready');
  const motion=document.createElement('button');motion.className='sequence-motion';motion.textContent='Pause movement';motion.setAttribute('aria-pressed','false');document.querySelector('.hero-copy').append(motion);
  motion.onclick=()=>{active=!active;motion.textContent=active?'Pause movement':'Enable movement';motion.setAttribute('aria-pressed',String(!active));if(!active)target=manifest.center;};
- function pointer(e){if(cardFocus.active||arrival.startup||!active||e.pointerType==='touch')return;if(arrival.active)arrival.cancel();const r=host.getBoundingClientRect();const fraction=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));target=fraction*(manifest.count-1);load(Math.round(target)).catch(console.warn);}
+ function pointer(e){if(host.dataset.inkReveal==='spreading'||cardFocus.busy||arrival.startup||!active||e.pointerType==='touch')return;if(arrival.active)arrival.cancel();const r=host.getBoundingClientRect();const fraction=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));target=fraction*(manifest.count-1);load(Math.round(target)).catch(console.warn);}
  host.addEventListener('pointermove',pointer);host.addEventListener('pointerenter',pointer);host.addEventListener('pointerleave',()=>target=manifest.center);
  document.addEventListener('visibilitychange',()=>{visible=!document.hidden;last=performance.now();});
  function draw(now){const dt=Math.min((now-last)/1000,.1);last=now;
@@ -56,7 +58,7 @@ export async function createRenderSequence(){
   arrival.update(dt,active&&visible,!cardFocus.active&&Math.abs(current-manifest.center)<.02&&Math.abs(target-manifest.center)<.02);
   // Let the video compositor own focus playback. Redrawing the full-resolution
   // PNG sequence underneath it wastes bandwidth and can drop video frames.
-  if(cardFocus.active){if(arrival.active)arrival.cancel();cardFocus.draw(ctx,dt);requestAnimationFrame(draw);return;}
+  if(cardFocus.active){if(arrival.active)arrival.cancel();cardFocus.draw(ctx,dt,active&&visible);requestAnimationFrame(draw);return;}
   if(arrival.active){if(visible)drawStringLights(bloom,stringLayers.get(manifest.center),stringGains);requestAnimationFrame(draw);return;}
   if(visible){
    // Critically damped motion accelerates from rest instead of jumping to its
@@ -80,7 +82,7 @@ export async function createRenderSequence(){
   }requestAnimationFrame(draw);
  }requestAnimationFrame(draw);
  // Download full renders center-out, with a bounded decode queue.
- async function preload(){const queue=manifest.ready.filter(i=>!images.has(i)).sort((a,b)=>Math.abs(a-current)-Math.abs(b-current));await Promise.all(Array.from({length:3},async()=>{while(queue.length){const i=queue.shift();try{await load(i);}catch(e){console.warn('Sequence frame failed',i,e);}}}));}
+ async function preload(){const queue=manifest.ready.filter(i=>!images.has(i)).sort((a,b)=>Math.abs(a-current)-Math.abs(b-current));await Promise.all(Array.from({length:3},async()=>{while(queue.length){while(cardFocus.busy)await new Promise(resolve=>setTimeout(resolve,100));const i=queue.shift();try{await load(i);}catch(e){console.warn('Sequence frame failed',i,e);}}}));}
  // PNG decoding must not compete with the lossless lighting/video decoder.
  await arrival.readyForPan;
  while(cardFocus.active)await new Promise(resolve=>setTimeout(resolve,250));
