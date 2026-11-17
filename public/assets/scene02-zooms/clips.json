@@ -1,0 +1,14 @@
+{
+  "fps": 60,
+  "frames": 68,
+  "interpolation": false,
+  "source": "68 genuine EEVEE camera positions per card; artist scene 01_02; retained low card-light spill",
+  "resolution": [
+    1280,
+    720
+  ],
+  "duration": 1.1333333333333333,
+  "geometryRevision": "scene02",
+  "buildingLightFloor": 0.55,
+  "otherCardLightFloor": 0.18
+}
